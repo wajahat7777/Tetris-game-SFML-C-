@@ -10,6 +10,8 @@
  * */
 
 //---Piece Starts to Fall When Game Starts---//
+#include <iostream>
+using namespace std;
 void fallingPiece(float& timer, float& delay,int& colorNum){
     if (timer>delay){
         for (int i=0;i<4;i++){
@@ -25,7 +27,7 @@ void fallingPiece(float& timer, float& delay,int& colorNum){
             for(int i=0; i<4;i++)
                 gameGrid[point_2[i][1]][point_2[i][0]]=colorNum;
                 colorNum=1+rand()%7;
-            int n=1+rand()%7;
+            int n=1+rand()%10;
                        delay=0.3;
             //--- Un-Comment this Part When You Make BLOCKS array---//
                    
@@ -68,6 +70,9 @@ void fallingPiece(float& timer, float& delay,int& colorNum){
             
   }
    
+int score = 0;
+
+
 
     void rotation(bool &rotate){   
  
@@ -98,7 +103,8 @@ void fallingPiece(float& timer, float& delay,int& colorNum){
             point_1[i][1]=point_2[i][1];   
             point_1[i][0]=point_2[i][0];   
           }
-       }	
+       }
+       
     }
  
  }
@@ -106,34 +112,35 @@ void fallingPiece(float& timer, float& delay,int& colorNum){
  
              
  
- void lbreak()                               //function for breaking line
- {
- 
-   int check=0;
-   int j=0,z=0,scr=0;
-   for(j=M-1;j>=0;j--)                       //loop for rows from bottom to top if the specific bloack is empty or filled
-   { 
-       check=0;
-       int z=0;
-       int scr=0;
-       for(int i=0; i< N; i++)             //loop for rows from left to right to check if the specific bloack is empty or filled
-	{
- 	  if(gameGrid[j][i] == 0)           
- 	   check++;                          //the variables counts how much blocks are empty in a row 
- 	} 
- 	 
- 	 if(check ==0)                       //if the whole row is filled 
- 	{
- 	for(int i =0; i<N; i++)              //loop to delete the whole row 
-      	  gameGrid[j][i] =0; 
-  	
-  	for(int t=j; t>=0 ; t-- )            //loop to move row of blocks to the next row(deleted row)
-   	  for(int i =0; i<N; i++)
-      	  gameGrid[t][i] =gameGrid[t-1][i]; 
-   		j++;
-   	}
+void lbreak() {
+    int check = 0;
+    for (int j = M - 1; j >= 0; j--) {
+        check = 0;
+        for (int i = 0; i < N; i++) {
+            if (gameGrid[j][i] == 0) {
+                check++;  // Count how many blocks are empty
+            }
+        }
+        
+        if (check == 0) {  // Row is full
+            std::cout << "Line " << j << " is full, breaking it." << std::endl;
+            for (int i = 0; i < N; i++) {
+                gameGrid[j][i] = 0;
+            }
+            
+            for (int t = j; t > 0; t--) {
+                for (int i = 0; i < N; i++) {
+                    gameGrid[t][i] = gameGrid[t-1][i];
+                }
+            }
+            j++;  // Re-check the current row after collapsing rows above
+
+            score += 100;  // Increment score
+            std::cout << "Score incremented to: " << score << std::endl;
+        }
     }
- }   
+}
+
 
       void GameEnd(bool& game_end)
       {
@@ -148,4 +155,3 @@ void fallingPiece(float& timer, float& delay,int& colorNum){
  
 ///*** YOUR FUNCTIONS END HERE ***///
 /////////////////////////////////////
-
