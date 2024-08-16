@@ -20,6 +20,9 @@
 #include "pieces.h"
 #include "functionality.h"
 using namespace sf;
+
+
+
 int main(){
     srand(time(0));
     RenderWindow window(VideoMode(320, 480), title);
@@ -53,18 +56,20 @@ int main(){
     }
     
     Text text;
+    
     text.setFont(font);
-    text.setString("Score: ");
+
     text.setFillColor(Color::Red);
     text.setStyle(Text::Bold);
-    text.setCharacterSize(25);
-    text.setPosition(240.f,110.f);
+    text.setCharacterSize(15);
+    text.setPosition(230.f,110.f);
     
     while (window.isOpen() && close){
             
         float time = clock.getElapsedTime().asSeconds();
         clock.restart();
         timer+=time;
+
 
         //---Event Listening Part---//
         Event e;
@@ -95,6 +100,7 @@ int main(){
         movement(delta_x);                               //left to right movement for blocks
         GameEnd(game_end);                               //function for game end
         lbreak();                                        //function for line break
+        text.setString("Score: " + std::to_string(score));
         fallingPiece(timer,delay, colorNum);               //Example: fallingPiece() function is called here
         
         
